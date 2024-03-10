@@ -1,0 +1,32 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Docker Login
+      uses: docker/login-action@v3.0.0
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Build the Vernal API Docker Image
+      run: docker build ./vernal -f vernal/Dockerfile --tag richardnas/vernal-api:lastest
+
+    - name: Push the Vernal API Docker Image
+      run: docker push richardnas/vernal-api:lastest
+
+    - name: Build the Vernal Load Balancer Docker Image
+      run: docker build ./vernal-lb -f vernal-lb/Dockerfile --tag richardnas/vernal-load-balancer:lastest
+    
+    - name: Push the Vernal Load Balancer Docker Image
+      run: docker push richardnas/vernal-load-balancer:lastest

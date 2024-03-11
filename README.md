@@ -1,5 +1,6 @@
 # :blossom:	Vernal
 
+[![Docker Image CI](https://github.com/richardnfag/vernal/actions/workflows/CI.yml/badge.svg)](https://github.com/richardnfag/vernal/actions/workflows/CI.yml)
 
 Vernal é minha proposta subatômica para a rinha de backend
 

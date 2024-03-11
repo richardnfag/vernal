@@ -336,13 +336,11 @@ async fn create_database(
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    let port = std::env::var("HTTP_SERVER_PORT")
-        .unwrap_or_default()
-        .parse::<u16>()
-        .unwrap_or(9999);
-    let listener = TcpListener::bind(("0.0.0.0", port)).await?;
 
-    println!("Server running on port: {}", port);
+    let unix_socket = std::env::var("VERNAL_UNIX_SOCKET").unwrap_or("/app/data/vernal.sock".to_string());
+    let listener = tokio::net::UnixListener::bind(&unix_socket).unwrap();
+
+    println!("Server running on unix socket: {}", unix_socket);
 
     loop {
         let (mut stream, _) = listener.accept().await?;
